@@ -7,8 +7,11 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: |
-          TAG=$CIRCLE_BRANCH
-          docker build -t  danielcooper/libtensorflow_musl:$TAG .
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push danielcooper/libtensorflow_musl:$TAG
+      - run:
+          name: BuildImage
+          command: |
+            TAG=$CIRCLE_BRANCH
+            docker build -t  danielcooper/libtensorflow_musl:$TAG .
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push danielcooper/libtensorflow_musl:$TAG
+          no_output_timeout: 30m
